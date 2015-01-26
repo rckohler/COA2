@@ -1,0 +1,13 @@
+bName:
+zombie1.png
+description:
+a very scary zombie
+choice: first
+choice: second
+
+bName:
+zombie2.png
+description:
+a different very scaryyyy zombie with a very long description of his brilliance and ineptitude
+choice: third
+choice: fourth
