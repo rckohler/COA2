@@ -1,26 +1,28 @@
 bName: zombie1.png
+eventID: zombie1
 description: pile of text
-choice:option primary
-3:zombie1.png
-4:zombie2.png
-description: pile of text
+choice: option primary
+3: zombie1.png
+4: zombie2.png
+description:pile of text
 choice:option secondary
-3:zombie1.png
-4:zombie2.png
-description: pile of text
+3: zombie1.png
+4: zombie2.png
+description:pile of text
 choice:option tertiary
-3:zombie1.png
-4:zombie2.png
+3: zombie1.png
+4: zombie2.png
 bName: zombie2.png
+eventID: zombie2
 description: pile of text
 choice:option primary
-3:zombie1.png
-4:zombie2.png
+3: zombie1.png
+4: zombie2.png
 description: pile of text
-choice:option secondary
-3:zombie1.png
-4:zombie2.png
+choice: option secondary
+3: zombie1.png
+4: zombie2.png
 description: pile of text
-choice:option tertiary
-3:zombie1.png
-4:zombie2.png
+choice: option tertiary
+3: zombie1.png
+4: zombie2.png

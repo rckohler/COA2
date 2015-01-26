@@ -27,6 +27,9 @@ public class Card {
         textBox = new TextBox(descriptionBounds,description,textSize, charactersPerLine);
         createChoiceTextBoxes();
     }
+    public void setStoryID(int storyID){
+        this.storyID = storyID;
+    }
     private void createChoiceTextBoxes(){
         String description;
         RectF choiceBounds;

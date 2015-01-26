@@ -14,6 +14,6 @@ public class Entry {
             System.out.println("RCK: invalid entry did not contain divider. String = " + s);
         }
         type = s.substring(0,divisionPoint);
-        content = s.substring(divisionPoint+1);
+        content = s.substring(divisionPoint+2);
     }
 }

@@ -83,10 +83,13 @@ public class CardFactory {
         Vector<Choice> choices = new Vector<Choice>();
         String bName="",description="";
         for(int i = 0; i < entries.size(); i++){
+            if (i == 13){
+                ;
+            }
             Entry entry = entries.elementAt(i);
             if(entry.type.equalsIgnoreCase("bName"))
             {
-                bName = entry.content.substring(1);
+                bName = entry.content;
                 if (bName.isEmpty() || description.isEmpty()||choices.isEmpty()){
                     System.out.println("RCK: Incomplete data group for entry " +entry.type +":"+entry.content );
                 }
@@ -125,6 +128,7 @@ public class CardFactory {
                         }
                         catch (NumberFormatException e) {
                             inChoiceLoop = false;
+                            i--;
                         }
                 }
                 choices.add(new Choice(choiceDescription,probabilities,destinations));
@@ -132,7 +136,10 @@ public class CardFactory {
 
         }
         deck.add(createCard(bName,description,choices)); // handles the last card
-
+        choices.clear();
+        for (int i = 0; i < deck.size(); i++){
+            deck.elementAt(i).setStoryID(i);
+        }
         return deck;
     }
     public void deckReport(){
