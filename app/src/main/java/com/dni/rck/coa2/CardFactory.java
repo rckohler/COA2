@@ -108,24 +108,24 @@ public class CardFactory {
                 boolean inChoiceLoop = true;
                 String type;
                 int p;
-
+                String test = "bName";
                 i++;
                 entry = entries.elementAt(i);
 
                 while (inChoiceLoop && i < entries.size()){
-                    if (entry.type.contains("choice")||entry.type.contains("bName"))
-                        inChoiceLoop = false;
 
-                    else{
                         entry = entries.elementAt(i);
                         type= entry.type.substring(0,1);
-                        p = Integer.parseInt(type);
-
-                        probabilities[arrayCounter]=p;
-                        destinations[arrayCounter]=entry.content;
-                        arrayCounter++;
-                        i++;
-                    }
+                        try {
+                            p = Integer.parseInt(type);
+                            probabilities[arrayCounter]=p;
+                            destinations[arrayCounter]=entry.content;
+                            arrayCounter++;
+                            i++;
+                        }
+                        catch (NumberFormatException e) {
+                            inChoiceLoop = false;
+                        }
                 }
                 choices.add(new Choice(choiceDescription,probabilities,destinations));
             }

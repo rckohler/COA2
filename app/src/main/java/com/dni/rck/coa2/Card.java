@@ -30,14 +30,14 @@ public class Card {
     private void createChoiceTextBoxes(){
         String description;
         RectF choiceBounds;
-        int charactersPerLine = 25, textSize = 25;
+        int charactersPerLine = 25, textSize = 35;
         float left, top, right, bottom, spacer = bounds.width()*.05f;
         for (int i = 0; i < choices.size(); i++){
             description = choices.elementAt(i).description;
             left = bounds.left+spacer;
             right = bounds.right-spacer;
-            top = bounds.height()*.75f;
-            bottom = top + 2*spacer;
+            top = bounds.height()*.65f +i*spacer*2;
+            bottom = top + 2*spacer + i*spacer*2;
             choiceBounds = new RectF(left,top,right,bottom);
             choiceTextBoxes.add(new TextBox(choiceBounds,description,textSize,charactersPerLine));
         }

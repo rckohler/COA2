@@ -1,5 +1,26 @@
 bName: zombie1.png
 description: pile of text
-choice:describe choice0
+choice:option primary
+3:zombie1.png
+4:zombie2.png
+description: pile of text
+choice:option secondary
+3:zombie1.png
+4:zombie2.png
+description: pile of text
+choice:option tertiary
+3:zombie1.png
+4:zombie2.png
+bName: zombie2.png
+description: pile of text
+choice:option primary
+3:zombie1.png
+4:zombie2.png
+description: pile of text
+choice:option secondary
+3:zombie1.png
+4:zombie2.png
+description: pile of text
+choice:option tertiary
 3:zombie1.png
 4:zombie2.png
