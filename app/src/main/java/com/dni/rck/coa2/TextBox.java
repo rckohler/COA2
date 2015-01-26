@@ -28,6 +28,10 @@ public class TextBox {
        // sayWords();
         sayLines();
     }
+    public boolean isClicked(float clickX, float clickY){
+        if (bounds.contains(clickX,clickY)) return true;
+        else return false;
+    }
     private void parseIntoWords(String text){
         int startSpace = 0;
         int finishSpace =0;

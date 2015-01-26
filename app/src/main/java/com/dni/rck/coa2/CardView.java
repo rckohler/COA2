@@ -34,9 +34,9 @@ public class CardView extends View {
 
     }
     protected void onDraw(Canvas canvas) {
-
-        if (cardFactory.currentCard.bitmap != null)
-            cardFactory.currentCard.update(canvas);
+        if(cardFactory.currentCard!=null)
+            if (cardFactory.currentCard.bitmap != null)
+                cardFactory.currentCard.update(canvas);
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) { }

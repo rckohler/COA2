@@ -7,30 +7,20 @@ import java.util.Random;
 /**
  * Created by rck on 1/25/2015.
  */
-public class Choice extends TextBox{
+public class Choice{
     static int MAX_CHOICES = 4;
     int[]probability = new int[MAX_CHOICES];
-    int[]destination = new int[MAX_CHOICES];
+    String[]destination = new String[MAX_CHOICES];
     Random rand = new Random();
+    String description;
 
-    public Choice(RectF bounds, String text, int textSize, int charactersPerLine, int[]probability, int[]destination) {
-        super(bounds, text, textSize, charactersPerLine);
+    public Choice(String description, int[]probability, String[]destination) {
         this.probability = probability;
         this.destination = destination;
+        this.description = description;
     }
-    private void parseChoice(String s){
-        int choiceProbability;
-        int choiceDestination;
-        String choiceDescription;
-
-    }
-    public boolean isClicked(float clickX, float clickY){
-        boolean ret = false;
-        if (bounds.contains(clickX,clickY)) ret = true;
-        return ret;
-    }
-    public int processClick(float clickX, float clickY){
-        int ret = -1;
+    public String processClick(float clickX, float clickY){
+        String ret ="";
         int possibleOutcomes = probability.length;
         int totalOfProbabilityValues = 0;
         for(int i = 0; i < possibleOutcomes; i++){
@@ -46,7 +36,7 @@ public class Choice extends TextBox{
                 break;
             }
         }
-        if (ret == -1)
+        if (ret.equalsIgnoreCase(""))
             System.out.println("RCK: error in processClick ret was not set to a valid value");
 
         return ret;

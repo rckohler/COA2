@@ -37,8 +37,25 @@ public class CardFactory {
             instance = new CardFactory(context, cardTextFile);
         return instance;
     }
-
-    private Card createCard(String bitmapName, String cardDescription, Vector<String> choiceStrings){
+    private Vector<Entry> createEntries(String cardsTextFile){
+        InputStream iS;
+        Vector<Entry> entries = new Vector<Entry>();
+        BufferedReader reader;
+        String sCurrentLine;
+        //read names and descriptions from text file and add them respectively to vectors.
+        try {
+            iS = assetManager.open(cardsTextFile);
+            reader = new BufferedReader(new InputStreamReader(iS));
+            while ((sCurrentLine = reader.readLine()) != null) {
+                entries.add(new Entry(sCurrentLine));
+            }
+        }
+        catch (IOException e){
+            System.out.println("RCK: error loading cardsTextFile " + cardsTextFile);
+        }
+        return entries;
+    }
+    private Card createCard(String bitmapName, String cardDescription, Vector<Choice> choices){
         Card card = null;
         InputStream iS;
         Bitmap bitmap = null;
@@ -56,67 +73,66 @@ public class CardFactory {
         catch (IOException e){
             System.out.println("RCK: error loading bitmap named " + bitmapName);
         }
-        card = new Card(bitmap,cardDescription,bounds,textSizePx,charactersPerLine,choiceStrings);
+        card = new Card(bitmap,cardDescription,bounds,textSizePx,charactersPerLine,choices);
         return card;
     }
 
     private Vector<Card> createDeck(String cardsTextFile){
         Vector<Card> deck = new Vector<Card>();
-        InputStream iS;
-        Vector<String> bitmapNames = new Vector<String>();
-        Vector<String> descriptions = new Vector<String>();
-        Vector<Vector<String>> choiceStrings = new Vector<Vector<String>>();
-        Vector<String> choiceString = new Vector<String>();
-        BufferedReader reader;
-        String sCurrentLine;
-        //read names and descriptions from text file and add them respectively to vectors.
-        try {
-            iS = assetManager.open(cardsTextFile);
-            reader = new BufferedReader(new InputStreamReader(iS));
-            while ((sCurrentLine = reader.readLine()) != null) {
-                if (sCurrentLine.equalsIgnoreCase("bName:"))
-                {
-                    sCurrentLine = reader.readLine();
-                    bitmapNames.add(sCurrentLine);
-
-                    if (!choiceString.isEmpty()) {
-                        choiceStrings.add(choiceString);
-                       // choiceString.clear();
-                    }
-
-                }
-                if (sCurrentLine.equalsIgnoreCase("description:"))
-                {
-                    sCurrentLine = reader.readLine();
-                    descriptions.add(sCurrentLine);
-                }
-                String s = "choice:";
-                String sub = sCurrentLine.substring(0,s.length());
-                if (sCurrentLine.length()>=s.length())
-                    if ((sub).equalsIgnoreCase("choice:"))
-                    {
-                        System.out.println("found choices");
-                        choiceString.add(sCurrentLine);
-                    }
-            }
-            if (!choiceString.isEmpty())choiceStrings.add(choiceString);
-        }
-        catch (IOException e){
-            System.out.println("RCK: error loading cardsTextFile " + cardsTextFile);
-        }
-        //create cards for each name and description if sizes are equal.
-        if(bitmapNames.size() == descriptions.size()){
-            String bitmapName, description;
-            for (int i = 0; i < bitmapNames.size(); i++)
+        Vector<Entry> entries = createEntries(cardsTextFile);
+        Vector<Choice> choices = new Vector<Choice>();
+        String bName="",description="";
+        for(int i = 0; i < entries.size(); i++){
+            Entry entry = entries.elementAt(i);
+            if(entry.type.equalsIgnoreCase("bName"))
             {
-                bitmapName = bitmapNames.elementAt(i);
-                description = descriptions.elementAt(i);
-                deck.add(createCard(bitmapName,description,choiceStrings.elementAt(i)));
+                bName = entry.content.substring(1);
+                if (bName.isEmpty() || description.isEmpty()||choices.isEmpty()){
+                    System.out.println("RCK: Incomplete data group for entry " +entry.type +":"+entry.content );
+                }
+                else{
+                    deck.add(createCard(bName,description,choices));
+                    choices.clear();
+                }
+            }
+            if(entry.type.equalsIgnoreCase("description"))
+            {
+                description = entry.content;
+            }
+            if(entry.type.contains("choice")){
+                int[] probabilities = new int[4];
+                String[] destinations = new String[4];
+                String choiceDescription = entry.content;
+
+                int arrayCounter=0;
+                boolean inChoiceLoop = true;
+                String type;
+                int p;
+
+                i++;
+                entry = entries.elementAt(i);
+
+                while (inChoiceLoop && i < entries.size()){
+                    if (entry.type.contains("choice")||entry.type.contains("bName"))
+                        inChoiceLoop = false;
+
+                    else{
+                        entry = entries.elementAt(i);
+                        type= entry.type.substring(0,1);
+                        p = Integer.parseInt(type);
+
+                        probabilities[arrayCounter]=p;
+                        destinations[arrayCounter]=entry.content;
+                        arrayCounter++;
+                        i++;
+                    }
+                }
+                choices.add(new Choice(choiceDescription,probabilities,destinations));
             }
 
         }
-        else
-            System.out.println("RCK: names and descriptions are not equal");
+        deck.add(createCard(bName,description,choices)); // handles the last card
+
         return deck;
     }
     public void deckReport(){
@@ -127,14 +143,15 @@ public class CardFactory {
     }
     public void chooseRandomCard(){
         Card card = null;
-        while (card == null)
-        {
-            card = deck.elementAt(rand.nextInt(deck.size()));
-            if (card.bitmap == null)
-                card = null;
-        }
-        if (card !=null){
-            currentCard = card;
+        if(deck.size()>0) {
+            while (card == null) {
+                card = deck.elementAt(rand.nextInt(deck.size()));
+                if (card.bitmap == null)
+                    card = null;
+            }
+            if (card != null) {
+                currentCard = card;
+            }
         }
     }
 }
