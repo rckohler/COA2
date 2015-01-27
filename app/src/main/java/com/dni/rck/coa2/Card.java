@@ -13,12 +13,13 @@ public class Card {
     int storyID;
     String description;
     Bitmap bitmap;
+    String eventID;
     RectF bounds;
     TextBox textBox;
     Vector<Choice> choices = new Vector<>();
     Vector<TextBox> choiceTextBoxes = new Vector<>();
 
-    public Card(Bitmap bitmap, String description, RectF bounds, int textSize, int charactersPerLine, Vector<Choice> choices){
+    public Card(Bitmap bitmap, String description, RectF bounds, int textSize, int charactersPerLine, Vector<Choice> choices, String eventID){
         this.description = description;
         this.bitmap = bitmap;
         this.bounds = bounds;
@@ -26,6 +27,7 @@ public class Card {
         RectF descriptionBounds = new RectF(bounds.left,bounds.top+bounds.height()*.1f, bounds.right, bounds.height()*.5f);
         textBox = new TextBox(descriptionBounds,description,textSize, charactersPerLine);
         createChoiceTextBoxes();
+        this.eventID = eventID;
     }
     public void setStoryID(int storyID){
         this.storyID = storyID;

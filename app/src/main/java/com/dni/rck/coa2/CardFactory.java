@@ -55,7 +55,7 @@ public class CardFactory {
         }
         return entries;
     }
-    private Card createCard(String bitmapName, String cardDescription, Vector<Choice> choices){
+    private Card createCard(String bitmapName, String cardDescription, Vector<Choice> choices, String eventID){
         Card card = null;
         InputStream iS;
         Bitmap bitmap = null;
@@ -73,7 +73,7 @@ public class CardFactory {
         catch (IOException e){
             System.out.println("RCK: error loading bitmap named " + bitmapName);
         }
-        card = new Card(bitmap,cardDescription,bounds,textSizePx,charactersPerLine,choices);
+        card = new Card(bitmap,cardDescription,bounds,textSizePx,charactersPerLine,choices, eventID);
         return card;
     }
 
@@ -81,11 +81,10 @@ public class CardFactory {
         Vector<Card> deck = new Vector<Card>();
         Vector<Entry> entries = createEntries(cardsTextFile);
         Vector<Choice> choices = new Vector<Choice>();
-        String bName="",description="";
+        String bName="",description="",eventID="";
+
+
         for(int i = 0; i < entries.size(); i++){
-            if (i == 13){
-                ;
-            }
             Entry entry = entries.elementAt(i);
             if(entry.type.equalsIgnoreCase("bName"))
             {
@@ -94,7 +93,7 @@ public class CardFactory {
                     System.out.println("RCK: Incomplete data group for entry " +entry.type +":"+entry.content );
                 }
                 else{
-                    deck.add(createCard(bName,description,choices));
+                    deck.add(createCard(bName,description,choices,eventID));
                     choices.clear();
                 }
             }
@@ -102,6 +101,10 @@ public class CardFactory {
             {
                 description = entry.content;
             }
+            if (entry.type.equalsIgnoreCase("EventID")){
+                eventID = entry.content;
+            }
+
             if(entry.type.contains("choice")){
                 int[] probabilities = new int[4];
                 String[] destinations = new String[4];
@@ -135,7 +138,7 @@ public class CardFactory {
             }
 
         }
-        deck.add(createCard(bName,description,choices)); // handles the last card
+        deck.add(createCard(bName,description,choices,eventID)); // handles the last card
         choices.clear();
         for (int i = 0; i < deck.size(); i++){
             deck.elementAt(i).setStoryID(i);
