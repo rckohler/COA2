@@ -63,7 +63,9 @@ public class Card {
     }
     public void update(Canvas canvas){
         if (bitmap != null)
+        {
             canvas.drawBitmap(bitmap,null,bounds,null);
+        }
         textBox.update(canvas);
         drawChoiceTextBoxes(canvas);
 

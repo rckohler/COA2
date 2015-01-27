@@ -86,17 +86,18 @@ public class CardFactory {
 
         for(int i = 0; i < entries.size(); i++){
             Entry entry = entries.elementAt(i);
-            if(entry.type.equalsIgnoreCase("bName"))
-            {
+            if(entry.type.equalsIgnoreCase("breakPoint")) {
+                deck.add(createCard(bName,description,choices,eventID));
+                choices.clear();
+            }
+
+                if(entry.type.equalsIgnoreCase("bName")) {
                 bName = entry.content;
+            }
                 if (bName.isEmpty() || description.isEmpty()||choices.isEmpty()){
                     System.out.println("RCK: Incomplete data group for entry " +entry.type +":"+entry.content );
                 }
-                else{
-                    deck.add(createCard(bName,description,choices,eventID));
-                    choices.clear();
-                }
-            }
+
             if(entry.type.equalsIgnoreCase("description"))
             {
                 description = entry.content;
@@ -140,6 +141,7 @@ public class CardFactory {
         }
         deck.add(createCard(bName,description,choices,eventID)); // handles the last card
         choices.clear();
+
         for (int i = 0; i < deck.size(); i++){
             deck.elementAt(i).setStoryID(i);
         }

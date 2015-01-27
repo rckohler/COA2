@@ -1,4 +1,4 @@
-bName: zombie1.png
+bName: zombie2.png
 eventID: zombie1
 description: pile of text
 choice: option primary
@@ -12,7 +12,8 @@ description: pile of text
 choice: option tertiary
 3: zombie1.png
 4: zombie2.png
-bName: zombie2.png
+breakPoint:zombie1
+bName: zombie3.png
 eventID: zombie2
 description: pile of text
 choice: 2option primary
@@ -26,3 +27,4 @@ description: pile of text
 choice: 2option tertiary
 3: zombie1.png
 4: zombie2.png
+breakPoint:zombie3
