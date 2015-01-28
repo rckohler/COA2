@@ -1,33 +1,33 @@
 eventID: someID
-description:$"
+description:{$
 a description
-"$
-choiceDescription:$"
+$}
+choiceDescription:{$
 choice description
-"$
-outcomes:${
+$}
+outcomes:{$
 outcomeProbability:destinationID
 anotherOutcomeProbability:anotherDestinationID
-}$
+$}
 endEvent
 
 eventID: zombieEncounter
-description:$"
+description:{$
 You see an ugly zombie with bits of goo leaking from her ear.
-"$
+$}
 
-chioce:$"
+chioce:{$
 smack it in the face really nicely.
-"$
-outcomes:${
+$}
+outcomes:{$
 2:deadZombie
 3:deadYou
-}$
+$}
 
-choice:$"
+choice:{$
 run away
-"$
-outcomes:${
+$}
+outcomes:{$
 1:runningYou
-}$
+$}
 endEvent

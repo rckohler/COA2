@@ -93,8 +93,25 @@ public class IanParse {
         }
     }
     private void parseMetaString(String metaString){
-        String eventId, description;
+        String eventId, description, choiceMetaString;
+        String demarker = "\\{\\$";
+        Pattern pEventId = Pattern.compile("eventID: (//w)");//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
+        Pattern pDescription = Pattern.compile("description:\\{\\$ (//w)\\$\\}") ;//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
+        Pattern pChoice = Pattern.compile("choice:\\{\\$ (//w)\\$\\}");
+        Matcher m;
+        m = pEventId.matcher(metaString);
+        while (m.find()) {
+            eventId = m.group(1);
+        }
+        m = pDescription.matcher(metaString);
+        while (m.find()) {
+            description = m.group(1);
+        }
 
+        m = pChoice.matcher(metaString);
+        while (m.find()) {
+            description = m.group(1);
+        }
     }
 
 }
