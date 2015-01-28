@@ -68,6 +68,5 @@ public class Card {
         }
         textBox.update(canvas);
         drawChoiceTextBoxes(canvas);
-
     }
 }
