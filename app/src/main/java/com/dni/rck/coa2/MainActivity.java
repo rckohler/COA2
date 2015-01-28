@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -22,9 +23,12 @@ public class MainActivity extends ActionBarActivity {
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         screenHeight = metrics.heightPixels;
         screenWidth = metrics.widthPixels;
-        cardFactory = CardFactory.getInstance(this,"a.txt");
-        CardView cardView = new CardView(this);
-        setContentView(cardView);
+        //cardFactory = CardFactory.getInstance(this,"a.txt");
+        //CardView cardView = new CardView(this);
+        //setContentView(cardView);
+        Log.i("DGK", "Testing1");
+        DanParse.createInstance(this, "b.txt");
+
     }
 
 

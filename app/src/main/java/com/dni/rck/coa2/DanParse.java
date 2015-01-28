@@ -5,11 +5,16 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.RectF;
+import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Random;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by rck on 1/27/2015.
@@ -27,10 +32,15 @@ public class DanParse {
         main = (MainActivity)context;
         bounds = new RectF(0,0,main.screenWidth,main.screenHeight);
         assetManager = main.getAssets();
-        }
-    public static DanParse getInstance(Context context, String cardTextFile){
-        if (instance == null)
-            instance = new DanParse(context, cardTextFile);
+        createDeck(cardTextFile);
+    }
+
+    public static DanParse getInstance() {
+        return instance;
+    }
+
+    public static DanParse createInstance(Context context, String cardTextFile){
+        instance = new DanParse(context, cardTextFile);
         return instance;
     }
 
@@ -56,6 +66,35 @@ public class DanParse {
 
     private void createDeck(String cardTextFile){
         //here is where your magicks would go...
-        //bs commit line
+
+        String fileStr = getCardString(cardTextFile);
+        Log.i("DGK", fileStr);
+
+        //Pattern p = Pattern.compile("Hello, (\\S+)");
+        //Matcher m = p.matcher();
+        //while (m.find()) { // Find each match in turn; String can't do this.
+        //    String name = m.group(1); // Access a submatch group; String can't do this.
+        //}
+    }
+
+    String getCardString(String cardTextFile) {
+        InputStream iS;
+        BufferedReader reader;
+        String pile = "";
+
+        try {
+            iS = assetManager.open(cardTextFile);
+            reader = new BufferedReader(new InputStreamReader(iS));
+
+            String line;
+            while( (line = reader.readLine()) != null) {
+                pile += line;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return pile;
     }
 }
