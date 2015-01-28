@@ -1,12 +1,31 @@
-event ID: firstEvent{$id
-event Description: {$
-A lengthy description... or not.
+eventID: someID
+description:"$
+a description
+$"
+choiceDescription:"$
+choice description
+%"
+outcomes:{$
+outcomeProbability:destinationID
+anotherOutcomeProbability:anotherDestinationID
 $}
-choice Description:{$
-A description of a choice.
+endEventID: someID
+
+eventID: zombieEncounter
+description:"$
+You see an ugly zombie with bits of goo leaking from her ear.
+$"
+choiceDescription:"$
+smack it in the face really nicely.
+%"
+outcomes:{$
+2:deadZombie
+3:deadYou
 $}
-choices: {$
-5:destination
-1:destination
+choiceDescription:"$
+run away
+%"
+outcomes:{$
+1:runningYou
 $}
-$id}
+endEventID:zombieEncounter
