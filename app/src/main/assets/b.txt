@@ -15,7 +15,7 @@ description:$"
 You see an ugly zombie with bits of goo leaking from her ear.
 "$
 
-choiceDescription:$"
+chioce:$"
 smack it in the face really nicely.
 "$
 outcomes:${
@@ -23,7 +23,7 @@ outcomes:${
 3:deadYou
 }$
 
-choiceDescription:$"
+choice:$"
 run away
 "$
 outcomes:${
