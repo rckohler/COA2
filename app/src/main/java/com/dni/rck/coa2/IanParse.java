@@ -79,7 +79,7 @@ public class IanParse {
 
     private void createMetaStrings(String textFileAsString){
         Vector<String>metaStrings = new Vector<>();
-        Pattern p = Pattern.compile("eventID: (.+?)endEvent");//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
+        Pattern p = Pattern.compile("(eventID:.+?)endEvent");//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
         Matcher m = p.matcher(textFileAsString);
         while (m.find()) {
             String name = m.group(1);
@@ -93,25 +93,28 @@ public class IanParse {
         }
     }
     private void parseMetaString(String metaString){
-        String eventId="", description="", choiceMetaString="";
-        Pattern pEventId = Pattern.compile("eventID: (.+?)");//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
-        Pattern pDescription = Pattern.compile("description::(.+?)::") ;//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
-        Pattern pChoice = Pattern.compile("choice:(.+?)outcomes::(.+?)::");
+        String eventId="", description="", choiceDescription = "", outComeString="";
+        String choiceName = "";
+        Vector<String>outcomeStrings = new Vector<>();
+        Vector<String>choiceNameStrings = new Vector<>();
 
+        Pattern p = Pattern.compile("eventID: (.+?)description::(.+?):::(.+?):::");//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
+        int[]probabilities = new int[4];
+        String[]destinations = new String[4];
         Matcher m;
-        m = pEventId.matcher(metaString);
+        m = p.matcher(metaString);
         while (m.find()) {
             eventId = m.group(1);
+            description = m.group(2);
+            choiceDescription = m.group(3);
         }
-        m = pDescription.matcher(metaString);
-        while (m.find()) {
-            description = m.group(1);
-        }
+        p = Pattern.compile("choice: (.+?)outcomes::(.+?)::");//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
+        m = p.matcher(choiceDescription);
 
-        m = pChoice.matcher(metaString);
-        while (m.find()) {
-            choiceMetaString = m.group(1);
+        while (m.find()){
+            choiceNameStrings.add(m.group(1));
+            outcomeStrings.add(m.group(2));
         }
-        System.out.println(choiceMetaString + description + eventId + " ");
+        System.out.println(choiceDescription + description + eventId + outComeString + choiceName + outcomeStrings);
     }
 }
