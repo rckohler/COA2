@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,7 +14,6 @@ public class MainActivity extends ActionBarActivity {
     Bitmap bitmap;
     int screenHeight, screenWidth;
     CardFactory cardFactory;
-    IanParse ianParse;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,9 +24,11 @@ public class MainActivity extends ActionBarActivity {
         screenHeight = metrics.heightPixels;
         screenWidth = metrics.widthPixels;
         //cardFactory = CardFactory.getInstance(this,"a.txt");
-        ianParse = IanParse.getInstance(this,"b.txt");
         //CardView cardView = new CardView(this);
         //setContentView(cardView);
+        Log.i("DGK", "Testing1");
+        DanParse.createInstance(this, "b.txt");
+
     }
 
 
