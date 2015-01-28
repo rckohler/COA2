@@ -13,6 +13,7 @@ public class MainActivity extends ActionBarActivity {
     Bitmap bitmap;
     int screenHeight, screenWidth;
     CardFactory cardFactory;
+    IanParse ianParse;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,9 +23,10 @@ public class MainActivity extends ActionBarActivity {
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         screenHeight = metrics.heightPixels;
         screenWidth = metrics.widthPixels;
-        cardFactory = CardFactory.getInstance(this,"a.txt");
-        CardView cardView = new CardView(this);
-        setContentView(cardView);
+        //cardFactory = CardFactory.getInstance(this,"a.txt");
+        ianParse = IanParse.getInstance(this,"b.txt");
+        //CardView cardView = new CardView(this);
+        //setContentView(cardView);
     }
 
 
