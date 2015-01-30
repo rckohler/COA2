@@ -98,7 +98,7 @@ public class IanParse {
         Vector<String>outcomeStrings = new Vector<>();
         Vector<String>choiceNameStrings = new Vector<>();
 
-        Pattern p = Pattern.compile("eventID: (.+?)description::(.+?):::(.+?):::");//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
+        Pattern p = Pattern.compile("eventID: (.+?)description::(.+?):::(.+?):::::");//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
         int[]probabilities = new int[4];
         String[]destinations = new String[4];
         Matcher m;
@@ -106,7 +106,7 @@ public class IanParse {
         while (m.find()) {
             eventId = m.group(1);
             description = m.group(2);
-            choiceDescription = m.group(3);
+            choiceDescription = m.group(3)+"::";
         }
         p = Pattern.compile("choice: (.+?)outcomes::(.+?)::");//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
         m = p.matcher(choiceDescription);
@@ -115,6 +115,7 @@ public class IanParse {
             choiceNameStrings.add(m.group(1));
             outcomeStrings.add(m.group(2));
         }
+
         System.out.println(choiceDescription + description + eventId + outComeString + choiceName + outcomeStrings);
     }
 }

@@ -18,10 +18,10 @@ eventID: zombieEncounter
 description::
 You see an ugly zombie with bits of goo leaking from her ear.
 :::
-choice: smack it in the face really nicely.
+choice: smack it in the face really meanly.
 outcomes::
 2:deadZombie
-3:deadYou
+1:deadYou
 ::
 choice: run away
 outcomes::
