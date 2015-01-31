@@ -116,6 +116,7 @@ public class IanParse {
             outcomeStrings.add(m.group(2));
         }
 
+
         System.out.println(choiceDescription + description + eventId + outComeString + choiceName + outcomeStrings);
     }
 }
