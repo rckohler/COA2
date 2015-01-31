@@ -8,7 +8,7 @@ import java.util.Random;
  * Created by rck on 1/25/2015.
  */
 public class Choice{
-    static int MAX_CHOICES = 4;
+    public static int MAX_CHOICES = 4;
     int[]probability = new int[MAX_CHOICES];
     String[]destination = new String[MAX_CHOICES];
     Random rand = new Random();
