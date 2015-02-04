@@ -1,4 +1,5 @@
 eventID: zombieEncounter
+bitmap: zombie2.png
 description::
 You see an ugly zombie with bits of goo leaking from her ear.
 :::
@@ -14,7 +15,8 @@ outcomes::
 :::
 endEvent
 
-eventID: zombieEncounter
+eventID: zombieEncounter2
+bitmap: zombie3.png
 description::
 You see an ugly zombie with bits of goo leaking from her ear.
 :::
@@ -26,6 +28,46 @@ outcomes::
 choice: run away
 outcomes::
 1:runningYou
+::
+:::
+endEvent
+
+eventID: deadZombie
+bitmap: deadZombie.png
+description::
+You see a dead ugly zombie.
+:::
+choice: piss on the corpse
+outcomes::
+1:deadZombie
+::
+choice: walk away
+outcomes::
+1:zombieEncounter2
+::
+:::
+endEvent
+
+eventID: deadYou
+bitmap: deadYou.png
+description::
+You are dead.
+:::
+choice: remain dead
+outcomes::
+1:deadYou
+::
+:::
+endEvent
+
+eventID: runningYou
+bitmap: zombie2.png
+description::
+You smell something foul.
+:::
+choice: continue
+outcomes::
+1:zombieEncounter2
 ::
 :::
 endEvent

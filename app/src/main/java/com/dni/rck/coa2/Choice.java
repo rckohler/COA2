@@ -3,6 +3,8 @@ package com.dni.rck.coa2;
 import android.graphics.RectF;
 
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by rck on 1/25/2015.
@@ -14,12 +16,27 @@ public class Choice{
     Random rand = new Random();
     String description;
 
+    public Choice (String choiceString){
+
+    }
     public Choice(String description, int[]probability, String[]destination) {
         this.probability = probability;
         this.destination = destination;
         this.description = description;
     }
-    public String processClick(float clickX, float clickY){
+    public Choice (String description, String outcomeString){
+        outcomeString+="1:"; //gives end signal at end of line
+        this.description = description;
+        Pattern p = Pattern.compile("(\\d+):(\\D+)"); //THIS IS ALL FUCKED UP...
+        Matcher m = p.matcher(outcomeString);
+        int i = 0;
+        while (m.find()){ //currently only finding first match...
+            destination[i] =m.group(2);
+            probability[i] =Integer.parseInt(m.group(1));
+            i++;
+        }
+    }
+    public String processClick(){
         String ret ="";
         int possibleOutcomes = probability.length;
         int totalOfProbabilityValues = 0;

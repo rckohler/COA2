@@ -1,6 +1,7 @@
 package com.dni.rck.coa2;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
@@ -12,9 +13,12 @@ import java.util.Vector;
 public class TextBox {
     Vector<String> words;
     Vector<String> lines;
+    float spaceBetweenLines;
     RectF bounds;
     Paint paint;
+    int textSize;
     int charactersPerLine;
+    public int numberOfLines;
 
     public TextBox(RectF bounds, String text, int textSize, int charactersPerLine){
         this.bounds = bounds;
@@ -22,6 +26,7 @@ public class TextBox {
         words = new Vector<String>();
         lines = new Vector<String>();
         paint = new Paint();
+        this.textSize = textSize;
         paint.setTextSize(textSize);
         parseIntoWords(text);
         parseIntoLines();
@@ -29,7 +34,8 @@ public class TextBox {
         sayLines();
     }
     public boolean isClicked(float clickX, float clickY){
-        if (bounds.contains(clickX,clickY)) return true;
+        if (bounds.contains(clickX,clickY))
+            return true;
         else return false;
     }
     private void parseIntoWords(String text){
@@ -68,6 +74,7 @@ public class TextBox {
             lineSize = 0;
             currentLine ="";
         }
+        numberOfLines = lines.size();
     }
     private void sayWords(){
         for (int i = 0; i < words.size(); i++)
@@ -82,9 +89,10 @@ public class TextBox {
         float xPos,yPos;
         for (int i = 0; i < lines.size(); i++) {
             xPos = bounds.left+bounds.width()*.05f;
-            yPos = bounds.top +bounds.height()*((i+1)*.05f);
+            yPos = bounds.top +((i+1)*textSize);
             canvas.drawText(lines.elementAt(i),xPos,yPos,paint);
         }
+        //canvas.drawRect(bounds,paint);
 
     }
     public void update(Canvas canvas){

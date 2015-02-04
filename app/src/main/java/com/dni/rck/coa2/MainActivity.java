@@ -23,11 +23,13 @@ public class MainActivity extends ActionBarActivity {
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         screenHeight = metrics.heightPixels;
         screenWidth = metrics.widthPixels;
-        //cardFactory = CardFactory.getInstance(this,"a.txt");
-        //CardView cardView = new CardView(this);
-        //setContentView(cardView);
-        Log.i("DGK", "Testing1");
-        DanParse.createInstance(this, "b.txt");
+
+        //IanParse.getInstance(this,"c.txt");
+        cardFactory = CardFactory.getInstance(this,"c.txt");
+        CardView cardView = new CardView(this);
+        setContentView(cardView);
+ //       Log.i("DGK", "Testing1");
+ //       DanParse.createInstance(this, "b.txt");
 
     }
 

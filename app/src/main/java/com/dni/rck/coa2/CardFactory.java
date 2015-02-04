@@ -12,6 +12,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Random;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by rck on 1/24/2015.
@@ -25,47 +27,86 @@ public class CardFactory {
     Vector<Card> deck;
     RectF bounds;
     Card currentCard;
+
     private CardFactory(Context context, String cardTextFile){
         main = (MainActivity)context;
         bounds = new RectF(0,0,main.screenWidth,main.screenHeight);
         assetManager = main.getAssets();
-        deck = createDeck(cardTextFile);
-        System.out.println("RCK: deck built");
+        deck = new Vector<>();
+        createMetaStrings(createString(cardTextFile));
     }
     public static CardFactory getInstance(Context context, String cardTextFile){
         if (instance == null)
             instance = new CardFactory(context, cardTextFile);
         return instance;
     }
-    private Vector<Entry> createEntries(String cardsTextFile){
-        InputStream iS;
-        Vector<Entry> entries = new Vector<Entry>();
+    private String createString(String cardsTextFile){
+        String ret="",sCurrentLine;
         BufferedReader reader;
-        String sCurrentLine;
-        //read names and descriptions from text file and add them respectively to vectors.
+        InputStream iS;
+
         try {
             iS = assetManager.open(cardsTextFile);
             reader = new BufferedReader(new InputStreamReader(iS));
             while ((sCurrentLine = reader.readLine()) != null) {
-                entries.add(new Entry(sCurrentLine));
+                ret+=sCurrentLine;
             }
         }
         catch (IOException e){
             System.out.println("RCK: error loading cardsTextFile " + cardsTextFile);
         }
-        return entries;
+        return ret;
     }
+    private void createMetaStrings(String textFileAsString){
+        Vector<String>metaStrings = new Vector<>();
+        Pattern p = Pattern.compile("(eventID:.+?)endEvent");//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
+        Matcher m = p.matcher(textFileAsString);
+        while (m.find()) {
+            String name = m.group(1);
+            metaStrings.add(name);
+        }
+        parseMetaStrings(metaStrings);
+    }
+    private void parseMetaStrings(Vector<String> metaStrings){
+        for (int i = 0; i < metaStrings.size(); i++){
+            parseMetaString(metaStrings.elementAt(i));
+        }
+    }
+    private void parseMetaString(String metaString){
+        String eventId="", description="", choiceDescription = "", bitmapName ="";
+        String choiceName = "";
+        Vector<Choice> choices;
+        choices = new Vector<>();
+        Pattern p = Pattern.compile("eventID: (.+?)bitmap: (.+?)description::(.+?):::(.+?):::::");//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
+        int[]probabilities = new int[4];
+        String[]destinations = new String[4];
+        Matcher m;
+        m = p.matcher(metaString);
+        while (m.find()) {
+            eventId = m.group(1);
+            bitmapName = m.group(2);
+            description = m.group(3);
+            choiceDescription = m.group(4)+"::";
+        }
+        p = Pattern.compile("choice: (.+?)outcomes::(.+?)::");//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
+        m = p.matcher(choiceDescription);
+
+        while (m.find()){
+            choices.add(new Choice(m.group(1),m.group(2)));
+        }
+        deck.add(createCard(bitmapName,description,choices,eventId));
+
+    }
+
     private Card createCard(String bitmapName, String cardDescription, Vector<Choice> choices, String eventID){
         Card card = null;
         InputStream iS;
         Bitmap bitmap = null;
         int charactersPerLine = 32;
-
 // Get the screen's density scale
         final float scale = main.getResources().getDisplayMetrics().density;
 // Convert the dps to pixels, based on density scale
         int textSizePx = (int) (MYTEXTSIZE * scale + 0.5f);
-
         try {
             iS = assetManager.open(bitmapName);
             bitmap = BitmapFactory.decodeStream(iS);
@@ -76,77 +117,14 @@ public class CardFactory {
         card = new Card(bitmap,cardDescription,bounds,textSizePx,charactersPerLine,choices, eventID);
         return card;
     }
-
-    private Vector<Card> createDeck(String cardsTextFile){
-        Vector<Card> deck = new Vector<Card>();
-        Vector<Entry> entries = createEntries(cardsTextFile);
-        Vector<Choice> choices = new Vector<Choice>();
-        String bName="",description="",eventID="";
-
-
-        for(int i = 0; i < entries.size(); i++){
-            Entry entry = entries.elementAt(i);
-            if(entry.type.equalsIgnoreCase("breakPoint")) {
-                deck.add(createCard(bName,description,choices,eventID));
-                choices.clear();
-            }
-
-                if(entry.type.equalsIgnoreCase("bName")) {
-                bName = entry.content;
-            }
-                if (bName.isEmpty() || description.isEmpty()||choices.isEmpty()){
-                    System.out.println("RCK: Incomplete data group for entry " +entry.type +":"+entry.content );
-                }
-
-            if(entry.type.equalsIgnoreCase("description"))
-            {
-                description = entry.content;
-            }
-            if (entry.type.equalsIgnoreCase("EventID")){
-                eventID = entry.content;
-            }
-
-            if(entry.type.contains("choice")){
-                int[] probabilities = new int[4];
-                String[] destinations = new String[4];
-                String choiceDescription = entry.content;
-
-                int arrayCounter=0;
-                boolean inChoiceLoop = true;
-                String type;
-                int p;
-                String test = "bName";
-                i++;
-                entry = entries.elementAt(i);
-
-                while (inChoiceLoop && i < entries.size()){
-
-                        entry = entries.elementAt(i);
-                        type= entry.type.substring(0,1);
-                        try {
-                            p = Integer.parseInt(type);
-                            probabilities[arrayCounter]=p;
-                            destinations[arrayCounter]=entry.content;
-                            arrayCounter++;
-                            i++;
-                        }
-                        catch (NumberFormatException e) {
-                            inChoiceLoop = false;
-                            i--;
-                        }
-                }
-                choices.add(new Choice(choiceDescription,probabilities,destinations));
-            }
-
-        }
-        deck.add(createCard(bName,description,choices,eventID)); // handles the last card
-        choices.clear();
-
+    public void setCurrentCardToEventId(String eventId){
         for (int i = 0; i < deck.size(); i++){
-            deck.elementAt(i).setStoryID(i);
+            if (deck.elementAt(i).eventID.equalsIgnoreCase(eventId))
+                currentCard = deck.elementAt(i);
         }
-        return deck;
     }
+
+
     public void deckReport(){
         for (int i = 0; i < deck.size(); i++)
         {

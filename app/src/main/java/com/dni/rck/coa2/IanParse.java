@@ -31,7 +31,7 @@ public class IanParse {
         main = (MainActivity)context;
         bounds = new RectF(0,0,main.screenWidth,main.screenHeight);
         assetManager = main.getAssets();
-
+        deck = new Vector<>();
         createMetaStrings(createString(cardTextFile));
     }
     public static IanParse getInstance(Context context, String cardTextFile){
@@ -93,30 +93,32 @@ public class IanParse {
         }
     }
     private void parseMetaString(String metaString){
-        String eventId="", description="", choiceDescription = "", outComeString="";
+        String eventId="", description="", choiceDescription = "", outComeString="", bitmapName ="";
         String choiceName = "";
-        Vector<String>outcomeStrings = new Vector<>();
-        Vector<String>choiceNameStrings = new Vector<>();
-
-        Pattern p = Pattern.compile("eventID: (.+?)description::(.+?):::(.+?):::::");//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
+        Vector<Choice> choices = new Vector<>();
+        Pattern p = Pattern.compile("eventID: (.+?)bitmap: (.+?)description::(.+?):::(.+?):::::");//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
         int[]probabilities = new int[4];
         String[]destinations = new String[4];
         Matcher m;
+        Card card;
         m = p.matcher(metaString);
         while (m.find()) {
             eventId = m.group(1);
-            description = m.group(2);
-            choiceDescription = m.group(3)+"::";
+            bitmapName = m.group(2);
+            description = m.group(3);
+            choiceDescription = m.group(4)+"::";
         }
         p = Pattern.compile("choice: (.+?)outcomes::(.+?)::");//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
         m = p.matcher(choiceDescription);
 
         while (m.find()){
-            choiceNameStrings.add(m.group(1));
-            outcomeStrings.add(m.group(2));
+            choices.add(new Choice(m.group(1),m.group(2)));
         }
+        card = createCard(bitmapName,description,choices,eventId);
+        deck.add(card);
 
-
-        System.out.println(choiceDescription + description + eventId + outComeString + choiceName + outcomeStrings);
+    }
+    public Vector<Card> getDeck(){
+        return deck;
     }
 }
