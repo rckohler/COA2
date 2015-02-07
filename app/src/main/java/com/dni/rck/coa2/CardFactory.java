@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,11 +28,13 @@ public class CardFactory {
     Vector<Card> deck;
     RectF bounds;
     Card currentCard;
-
+    Typeface typeface;
     private CardFactory(Context context, String cardTextFile){
         main = (MainActivity)context;
         bounds = new RectF(0,0,main.screenWidth,main.screenHeight);
         assetManager = main.getAssets();
+        typeface = Typeface.createFromAsset(main.getAssets(),"fonts/font_one.ttf");
+
         deck = new Vector<>();
         createMetaStrings(createString(cardTextFile));
     }
@@ -114,7 +117,7 @@ public class CardFactory {
         catch (IOException e){
             System.out.println("RCK: error loading bitmap named " + bitmapName);
         }
-        card = new Card(bitmap,cardDescription,bounds,textSizePx,charactersPerLine,choices, eventID);
+        card = new Card(bitmap,cardDescription,bounds,textSizePx,charactersPerLine,choices, eventID,typeface);
         return card;
     }
     public void setCurrentCardToEventId(String eventId){

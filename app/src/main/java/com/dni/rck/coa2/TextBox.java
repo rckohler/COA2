@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 
 import java.util.Vector;
 
@@ -20,7 +21,7 @@ public class TextBox {
     int charactersPerLine;
     public int numberOfLines;
 
-    public TextBox(RectF bounds, String text, int textSize, int charactersPerLine){
+    public TextBox(RectF bounds, String text, int textSize, int charactersPerLine, Typeface typeface){
         this.bounds = bounds;
         this.charactersPerLine = charactersPerLine;
         words = new Vector<String>();
@@ -34,8 +35,9 @@ public class TextBox {
         sayLines();
     }
     public boolean isClicked(float clickX, float clickY){
-        if (bounds.contains(clickX,clickY))
+        if (bounds.contains(clickX,clickY)) {
             return true;
+        }
         else return false;
     }
     private void parseIntoWords(String text){
@@ -86,13 +88,16 @@ public class TextBox {
         }
     }
     public void paintLines(Canvas canvas) {
+       // paint.setColor(Color.DKGRAY);
+       // canvas.drawRect(bounds,paint);
+        paint.setColor(Color.BLUE);
         float xPos,yPos;
         for (int i = 0; i < lines.size(); i++) {
             xPos = bounds.left+bounds.width()*.05f;
             yPos = bounds.top +((i+1)*textSize);
             canvas.drawText(lines.elementAt(i),xPos,yPos,paint);
         }
-        //canvas.drawRect(bounds,paint);
+
 
     }
     public void update(Canvas canvas){

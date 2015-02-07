@@ -2,6 +2,8 @@ package com.dni.rck.coa2;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -14,10 +16,11 @@ public class CardView extends View {
     MainActivity main;
     CardFactory cardFactory;
     Random rand = new Random();
-
+    Typeface typeface;
     public CardView(Context context) {
         super(context);
         main = (MainActivity)context;
+
         cardFactory = main.cardFactory;
         cardFactory.currentCard = cardFactory.deck.elementAt(0);
 
