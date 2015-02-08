@@ -29,6 +29,7 @@ public class TextBox {
         paint = new Paint();
         this.textSize = textSize;
         paint.setTextSize(textSize);
+        paint.setTypeface(typeface);
         parseIntoWords(text);
         parseIntoLines();
        // sayWords();
@@ -90,11 +91,11 @@ public class TextBox {
     public void paintLines(Canvas canvas) {
        // paint.setColor(Color.DKGRAY);
        // canvas.drawRect(bounds,paint);
-        paint.setColor(Color.BLUE);
+        paint.setColor(Color.BLACK);
         float xPos,yPos;
         for (int i = 0; i < lines.size(); i++) {
             xPos = bounds.left+bounds.width()*.05f;
-            yPos = bounds.top +((i+1)*textSize);
+            yPos = bounds.top +((i+1)*textSize*1.3f);
             canvas.drawText(lines.elementAt(i),xPos,yPos,paint);
         }
 

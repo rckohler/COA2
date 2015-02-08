@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 public class CardFactory {
     private static CardFactory instance = null;
     MainActivity main;
-    private static final float MYTEXTSIZE = 18.0f;
+    private static final float MYTEXTSIZE = 18;
     AssetManager assetManager;
     Random rand = new Random();
     Vector<Card> deck;
@@ -31,9 +31,9 @@ public class CardFactory {
     Typeface typeface;
     private CardFactory(Context context, String cardTextFile){
         main = (MainActivity)context;
-        bounds = new RectF(0,0,main.screenWidth,main.screenHeight);
+        bounds = new RectF(0,0,main.screenWidth,main.screenHeight*.873f);
         assetManager = main.getAssets();
-        typeface = Typeface.createFromAsset(main.getAssets(),"fonts/font_one.ttf");
+        typeface = Typeface.createFromAsset(main.getAssets(),"fonts/ArchitectsDaughter.ttf");
 
         deck = new Vector<>();
         createMetaStrings(createString(cardTextFile));
@@ -91,7 +91,7 @@ public class CardFactory {
             description = m.group(3);
             choiceDescription = m.group(4)+"::";
         }
-        p = Pattern.compile("choice: (.+?)outcomes::(.+?)::");//.+ grab all stuff  //w stands for word characters //? grabs shortest sequence
+        p = Pattern.compile("choice:(.+?)outcomes::(.+?)::"); //likely culprit for one word thing not working
         m = p.matcher(choiceDescription);
 
         while (m.find()){
@@ -105,7 +105,7 @@ public class CardFactory {
         Card card = null;
         InputStream iS;
         Bitmap bitmap = null;
-        int charactersPerLine = 32;
+        int charactersPerLine = 22;
 // Get the screen's density scale
         final float scale = main.getResources().getDisplayMetrics().density;
 // Convert the dps to pixels, based on density scale

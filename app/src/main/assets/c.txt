@@ -1,89 +1,164 @@
-eventID: zombieEncounterOne
-bitmap: zombie2.png
+eventID: humanApproaches
+bitmap: background.png
 description::
-You see an ugly zombie with bits of goo leaking from her ear.
+You are afraid. They are everywhere. They are loud. They are mean. They are Giants who enjoy torture and mayhem. You see one approaching. What will you do?
 :::
-choice: smack it in the face really nicely.
+choice: Scream and shout.
 outcomes::
-2:deadZombie
-3:deadYou
+1:petting
+5:humanWalk
+1:steppedOn
+1:poisoning
 ::
-choice: run away
+choice: Run in fear.
 outcomes::
-1:runningYou
+4:running
+1:poisoning
+::
+choice: Cower in fear and attempt to placate the Giant.
+outcomes::
+5:petting
+1:poisoning
 ::
 :::
 endEvent
 
-eventID: zombieEncounterTwo
-bitmap: zombie3.png
+eventID: humanWalk
+bitmap: background.png
 description::
-You see an ugly zombie with bits of goo leaking from her ear.
+The Giant walks by. It may have seen someone more important to torture. Your heart beats a little slower. Now what do you do?
 :::
-choice: smack it in the face really meanly.
+choice: Go to sleep.
 outcomes::
-2:deadZombie
-1:deadYou
+1:sleep
 ::
-choice: run away
+choice: Find something to eat.
 outcomes::
-1:runningYou
+1:eat
 ::
 :::
 endEvent
 
-eventID: deadZombie
-bitmap: deadZombie.png
+eventID: petting
+bitmap: background.png
 description::
-You see a dead ugly zombie.
+The giant reaches toward you, blood is certainly on his mind. As his hand approaches, your sad scared life passes before your eyes, and then... the giant scratches your belly. It feels good. You start to purr. Perhaps they are not all bad.
 :::
-choice: piss on the corpse
+choice: The End.
 outcomes::
-1:pissedDeadZombie
-::
-choice: walk away
-outcomes::
-1:zombieEncounterTwo
+1:end
 ::
 :::
 endEvent
 
-eventID: pissedDeadZombie
-bitmap: deadZombie.png
+eventID: steppedOn
+bitmap: background.png
 description::
-You see a pissed dead zombie.
+The giant steps on you. The pain surges and your eyes bulge, and then, mercifully, the pain recedes. What would you like to do now?
 :::
-choice: walk away
+choice: Go to sleep.
 outcomes::
-1:zombieEncounterTwo
+1:sleep
+::
+choice: Find something to eat.
+outcomes::
+1:eat
 ::
 :::
 endEvent
 
-eventID: runningYou
-bitmap: zombie2.png
+eventID: poisoning
+bitmap: background.png
 description::
-You are tired.
+The giant grabs you and lifts you high into the air. You are held tightly as another giant approaches. It applies a magic ointment to the back of your neck. The liquid burns and then you know. It is poison. You are placed back on the ground. What now?
 :::
-choice: continue running
+choice: Find a place to die.
 outcomes::
-1:zombieEncounterTwo
+1:poisonedSleep
 ::
 :::
 endEvent
 
-eventID: deadYou
-bitmap: deadYou.png
+eventID: running
+bitmap: background.png
 description::
-You are dead.
+You run. The giant does not pursue. You are exhausted but safe. What would you like to do now?
 :::
-choice: remain dead
+choice: Go to sleep.
 outcomes::
-1:deadYou
+1:sleep
 ::
-choice: start over
+choice: Find something to eat.
 outcomes::
-1:zombieEncounterOne
+1:eat
+::
+:::
+endEvent
+
+eventID: eat
+bitmap: background.png
+description::
+You find the magic bowl of unending food. You eat and eat until you can eat no more. Glutted and with no clear threat there is nothing to do but sleep.
+:::
+choice: Go to sleep.
+outcomes::
+1:sleep
+::
+:::
+endEvent
+
+eventID: sleep
+bitmap: background.png
+description::
+As you fall asleep you hear the giants torturing another of your kind. The screams are deafening, but you know there is nothing you can do for her.
+:::
+choice: Ignore the cries.
+outcomes::
+1:wake
+::
+choice: Run bravely into peril.
+outcomes::
+1:poisoning
+::
+:::
+endEvent
+
+eventID: poisonedSleep
+bitmap: background.png
+description::
+As you fall asleep as the poison seeps into your body.
+:::
+choice: Go to death at peace.
+outcomes::
+1:wake
+::
+choice: Fight in futility for more time on this wretched plane.
+outcomes::
+1:wake
+::
+:::
+endEvent
+
+eventID: wake
+bitmap: background.png
+description::
+Groggily the world begins to take focus. The giant is upon you there is nothing to be done about it. This is it.
+:::
+choice: Face death bravely.
+outcomes::
+1:petting
+::
+:::
+endEvent
+
+eventID: end
+bitmap: background.png
+description::
+The game is over.
+:::
+choice: Play again.
+outcomes::
+1:humanApproaches
 ::
 :::
 endEvent

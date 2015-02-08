@@ -26,30 +26,30 @@ public class Card {
         this.bounds = bounds;
         this.choices = choices;
         this.textSize = textSize;
-        RectF descriptionBounds = new RectF(bounds.left,bounds.top+bounds.height()*.1f, bounds.right, bounds.height()*.5f);
+        RectF descriptionBounds = new RectF(bounds.left,bounds.top+bounds.height()*.03f, bounds.right, bounds.height()*.5f);
         textBox = new TextBox(descriptionBounds,description,textSize, charactersPerLine,typeface);
-        createChoiceTextBoxes(typeface);
+        createChoiceTextBoxes(typeface,charactersPerLine);
         this.eventID = eventID;
     }
 
     public void setStoryID(int storyID){
         this.storyID = storyID;
     }
-    private void createChoiceTextBoxes(Typeface typeface){
+    private void createChoiceTextBoxes(Typeface typeface, int charactersPerLine){
         String description;
         RectF choiceBounds;
         TextBox textBox;
-        int charactersPerLine = 32;
-        float left, top, right, bottom, spacer = bounds.width()*.05f;
+
+        float left, top, right, bottom, spacer = bounds.width()*.02f;
         for (int i = 0; i < choices.size(); i++){
             description = choices.elementAt(i).description;
             left = bounds.left+spacer;
             right = bounds.right-spacer;
             if(i == 0) {
-                top = bounds.height() * .65f;
+                top = bounds.height() * .72f;
             }
             else{
-                top = choiceTextBoxes.elementAt(i-1).bounds.bottom+.5f*textSize;
+                top = choiceTextBoxes.elementAt(i-1).bounds.bottom+.25f*textSize;
             }
             choiceBounds = new RectF(left, top, right, 0);
             textBox = new TextBox(choiceBounds, description, textSize, charactersPerLine, typeface);
