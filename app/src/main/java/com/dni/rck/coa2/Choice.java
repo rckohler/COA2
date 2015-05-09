@@ -21,6 +21,7 @@ public class Choice{
     }
     public String processClick(float clickX, float clickY){
         String ret ="";
+        //jer 
         int possibleOutcomes = probability.length;
         int totalOfProbabilityValues = 0;
         for(int i = 0; i < possibleOutcomes; i++){
